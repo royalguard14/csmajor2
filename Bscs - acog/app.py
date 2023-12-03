@@ -151,7 +151,6 @@ def login():
             session['logged_in'] = True
             user_id = user.id
             session['id'] = user_id
-            print(session['id'])
             return redirect(url_for('front'))
         else:
             return render_template('login.html', invalid_input=True)

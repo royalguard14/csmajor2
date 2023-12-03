@@ -20,42 +20,51 @@
 </head>
 <body>
     <h1>Prediction History</h1>
-        <a href="/front">
+    <a href="/front">
         <button>Go to Front</button>
     </a>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Nitrogen </th>
-                <th>Phosphorous </th>
-                <th>Potassium </th>
-                <th>Temperature </th>
-                <th>Humidity </th>
-                <th>Alkaline </th>
-                <th>Rainfall </th>
-                <th>Prediction</th>
-                <th>Search Date</th>
-            </tr>
-        </thead>
-        <tbody>
+              <th>ID</th>
+              <th>Restaurant</th>
+              <th>Item</th>
+              <th>Details</th>
+              <th>Search Date</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for prediction in predictions %}
+        {% set json_data = prediction.input_values | toJson %}
+        <tr>
+            <td>{{ prediction.id }}</td>
+            <td>{{ json_data[0]['restaurant'] }}</td>
+            <td>{{ json_data[0]['item'] }}</td>
+            <td style="text-align: left">
 
-            {% for prediction in predictions %}
-            {% set json_data = prediction.input_values | toJson %}
-                <tr>
-                    <td>{{ prediction.id }}</td>
-                    <td>{{ json_data['nitrogen_value'] }}</td>
-                    <td>{{ json_data['phosphorous_value'] }}</td>
-                    <td>{{ json_data['potassium_value'] }}</td>
-                    <td>{{ json_data['temperature_value'] }}</td>
-                    <td>{{ json_data['humidity_value'] }}</td>
-                    <td>{{ json_data['alkaline_value'] }}</td>
-                    <td>{{ json_data['rainfall_value'] }}</td>
-                    <td>{{ json_data['data_pred'][0] }}</td>
-                    <td>{{ prediction.timestamp | ctime }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+         
+
+                <span>Calories: </span><em>{{ json_data[0]['calories'] }}</em><br>
+                <span>Calories from Fat: </span><em>{{ json_data[0]['cal_fat'] }}</em><br>
+                <span>Total Fat: </span><em>{{ json_data[0]['total_fat'] }}</em><br>
+                <span>Saturated Fat: </span><em>{{ json_data[0]['sat_fat'] }}</em><br>
+                <span>Trans Fat: </span><em>{{ json_data[0]['trans_fat'] }}</em><br>
+                <span>Cholesterol: </span><em>{{ json_data[0]['cholesterol'] }}</em><br>
+                <span>Sodium: </span><em>{{ json_data[0]['sodium'] }}</em><br>
+                <span>Total Carbohydrates: </span><em>{{ json_data[0]['total_carb'] }}</em><br>
+                <span>Fiber: </span><em>{{ json_data[0]['fiber'] }}</em><br>
+                <span>Sugar: </span><em>{{ json_data[0]['sugar'] }}</em><br>
+                <span>Protein: </span><em>{{ json_data[0]['protein'] }}</em><br>
+                <span>Vitamin A: </span><em>{{ json_data[0]['vit_a'] }}</em><br>
+                <span>Vitamin C: </span><em>{{ json_data[0]['vit_c'] }}</em><br>
+                <span>Calcium: </span><em>{{ json_data[0]['calcium'] }}</em><br>
+                <span>Salad: </span><em>{{ json_data[0]['salad'] }}</em><br>
+            </td>
+            <td>{{ prediction.timestamp | ctime }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 </body>
 </html>

@@ -53,59 +53,24 @@ with app.app_context():
 
 def load_dataframe():
     current_directory = os.path.dirname(__file__)
-    csv_path = os.path.join(current_directory, 'Crop_recommendation.csv')
-    df = pd.read_csv(csv_path).fillna('')
-    y = df["label"]
-    x = df.drop(["label"], axis=1)
-    X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=5)
-    lor = LogisticRegression(max_iter=1698)
-    return lor.fit(X_train.values, y_train.values)
+    csv_path = os.path.join(current_directory, 'fastfood_calories.csv')
+    return pd.read_csv(csv_path).fillna('')
 
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    # Retrieving form data sent from AJAX request
-    nitrogen_value = int(request.form.get('nitrogenValue'))
-    phosphorous_value = int(request.form.get('phosphorousValue'))
-    potassium_value = int(request.form.get('potassiumValue'))
-    temperature_value = float(request.form.get('temperatureValue'))
-    humidity_value = float(request.form.get('humidityValue'))
-    alkaline_value = float(request.form.get('alkalineValue'))
-    rainfall_value = float(request.form.get('rainfallValue'))
-
-    # Performing prediction
-    data_pred = load_dataframe().predict([[nitrogen_value, phosphorous_value, potassium_value, temperature_value, humidity_value, alkaline_value, rainfall_value]])
-
-    # Converting prediction to a list
-    data_pred_list = data_pred.tolist()
-
-    # Preparing the response data
-    response_data = {
-        'nitrogen_value': nitrogen_value,
-        'phosphorous_value': phosphorous_value,
-        'potassium_value': potassium_value,
-        'temperature_value': temperature_value,
-        'humidity_value': humidity_value,
-        'alkaline_value': alkaline_value,
-        'rainfall_value': rainfall_value,
-        'data_pred': data_pred_list if isinstance(data_pred, np.ndarray) else data_pred 
-    }
-
-
-    input_values_json = json.dumps(response_data)
-
+    search_term = request.args.get('search', '').lower()
+    df = load_dataframe()
+    filtered_data = df[df['item'].str.contains(search_term, case=False)]
+    filtered_records = filtered_data.to_dict('records')
 
     prediction_log = PredictionLog(
     user_id=session['id'],
-    input_values=input_values_json)
+    input_values=filtered_records)
 
     db.session.add(prediction_log)
     db.session.commit()
-
-
-
-    return jsonify(response_data)
-
+    return jsonify({'results': filtered_records})
 
 
 ########################################
@@ -151,7 +116,6 @@ def login():
             session['logged_in'] = True
             user_id = user.id
             session['id'] = user_id
-            print(session['id'])
             return redirect(url_for('front'))
         else:
             return render_template('login.html', invalid_input=True)
@@ -172,7 +136,12 @@ def logout():
 @app.route('/front', methods=['GET', 'POST'])
 @login_required
 def front():
-    return render_template('front.html')
+    data_dict = load_dataframe().to_dict(orient='records')
+    lsits = []
+    for record in data_dict:
+        lsits.append(record['item'])
+    return render_template('front.html', data=lsits)
+
 
 
 @app.route('/history', methods=['GET', 'POST'])

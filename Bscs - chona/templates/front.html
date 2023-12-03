@@ -1,203 +1,173 @@
-<!DOCTYPE html>
-<html lang="en">
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <!-- Required meta tags-->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Colrolib Templates">
-  <meta name="author" content="Colrolib">
-  <meta name="keywords" content="Colrolib Templates">
-  <!-- Title Page-->
-  <title>Au Form Wizard</title>
-  <!-- Icons font CSS-->
-  <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-  <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-  <!-- Font special for pages-->
-  <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-  <!-- Vendor CSS-->
-  <link href="{{ url_for('static',filename='vendor/select2/select2.min.css')}}" rel="stylesheet" media="all">
-  <link href="{{ url_for('static',filename='vendor/datepicker/daterangepicker.css')}}" rel="stylesheet" media="all">
-  <!-- Main CSS-->
-  <link href="{{ url_for('static',filename='css/main.css')}}" rel="stylesheet" media="all">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="author" content="colorlib.com">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,800" rel="stylesheet" />
+  <link href="{{ url_for('static',filename='css/main.css')}}" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <div class="page-wrapper bg-img-1 p-t-200 p-b-120">
-    <div class="wrapper wrapper--w900">
-      <div class="card card-4">
-        <div class="card-body">
-          <ul class="tab-list">
-            <li class="tab-list__item active">
-              <a class="tab-list__link" href="#tab1" data-toggle="tab">Details </a>
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="tab1">
-              <form id="myForm" method="POST" action="#">
-                <div class="row row-space">
-                  <div class="col-2">
-                    <div class="input-group input-group-big">
-                      <label class="label" for="nitrogen">Nitrogen:</label>
-                      <input id="nitrogen" class="input--style-1" type="number"  min="0" value="0">
-                      <i class="zmdi zmdi-search input-group-symbol"></i>
-                    </div>
-                  </div>
-                  <div class="col-2">
-                    <div class="input-group input-group-big">
-                      <label class="label" for="phosphorous">Phosphorous:</label>
-                      <input id="phosphorous" class="input--style-1" type="number"  min="0" value="0">
-                      <i class="zmdi zmdi-search input-group-symbol"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="row row-space">
-                  <div class="col-2">
-                    <div class="input-group input-group-big">
-                      <label class="label" for="potassium">Potassium :</label>
-                      <input id="potassium" class="input--style-1" type="number"  min="0" value="0">
-                      <i class="zmdi zmdi-search input-group-symbol"></i>
-                    </div>
-                  </div>
-                  <div class="col-2">
-                    <div class="input-group input-group-big">
-                      <label class="label" for="temperature">Temperature:</label>
-                      <input id="temperature" class="input--style-1" type="text"  pattern="[0-9]+([.,][0-9]+)?" title="Enter a valid number" value="0">
-                      <i class="zmdi zmdi-search input-group-symbol"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="row row-space">
-                  <div class="col-2">
-                    <div class="input-group input-group-big">
-                      <label class="label" for="humidity">Humidity:</label>
-                      <input id="humidity" class="input--style-1" type="text"  pattern="[0-9]+([.,][0-9]+)?" title="Enter a valid number" value="0">
-                      <i class="zmdi zmdi-search input-group-symbol"></i>
-                    </div>
-                  </div>
-                  <div class="col-2">
-                    <div class="input-group input-group-big">
-                      <label class="label" for="alkaline">Alkaline(pH):</label>
-                      <input id="alkaline" class="input--style-1" type="text"  pattern="[0-9]+([.,][0-9]+)?" title="Enter a valid number" value="0">
-                      <i class="zmdi zmdi-search input-group-symbol"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="input-group input-group-big">
-                  <label class="label" for="rainfall">Rainfall:</label>
-                  <input id="rainfall" class="input--style-1" type="text"  pattern="[0-9]+([.,][0-9]+)?" title="Enter a valid number" value="0">
-                  <i class="zmdi zmdi-search input-group-symbol"></i>
-                </div>
-                <button class="btn-submit m-t-0" type="submit">Search</button>
+  <script src="{{ url_for('static',filename='js/extention/choices.js')}}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <div class="s004">
+    <form>
+      <fieldset>
+        <legend>WHAT ARE YOU LOOKING FOR?</legend>
 
+<legend>
+<a href="{{ url_for('history') }}" style="display: inline-block; padding: 10px 20px; background: grey; text-decoration: none; color: white;">History</a>
 
-              </form>
-
-
-
-              <form action="{{ url_for('history') }}" method="post">
-                <br>
-                 <button class="btn-submit m-t-2" type="submit" style="background: grey"> History </button>
-              </form>
-
-
-               <form action="{{ url_for('logout') }}" method="post">
-                <br>
-                 <button class="btn-submit m-t-2" type="submit" style="background: red"> Logout </button>
-              </form>
-
+<a href="javascript:void(0);" onclick="logout()"style="display: inline-block; padding: 10px 20px; background: red; text-decoration: none; color: white;">Logout</a>
+</legend>
+        <select id="suggestions"></select>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+        <legend> 
+          <div class="faded-white-div">
+            <div class="container">
+             <div class="details">
+              <!-- Details content here -->
+              <h4 id="resto" style="color:black;"></h4>
+              <div id="detalye"></div>
+            </div>
+            <div class="pie-chart">
+              <canvas id="pieChart" width="400" height="400"></canvas>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </legend>
+      </fieldset>
+    </form>
   </div>
-  <!-- Modal -->
-  <div id="myModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div class="modal-header">
-        <h2 id="modalHead"></h2>
-      </div>
-      <div class="modal-body">
-        <div class="row row-space">
-          <div class="col-2">
-            <p>hello</p>
-          </div>
-          <div class="col-2">
-            <img id="myImage" src="">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Jquery JS-->
-  <script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js')}}"></script>
-  <!-- Vendor JS-->
-  <script src="{{ url_for('static',filename='vendor/select2/select2.min.js')}}"></script>
-  <script src="{{ url_for('static',filename='vendor/jquery-validate/jquery.validate.min.js')}}"></script>
-  <script src="{{ url_for('static',filename='vendor/bootstrap-wizard/bootstrap.min.js')}}"></script>
-  <script src="{{ url_for('static',filename='vendor/bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
-  <script src="{{ url_for('static',filename='vendor/datepicker/moment.min.js')}}"></script>
-  <script src="{{ url_for('static',filename='vendor/datepicker/daterangepicker.js')}}"></script>
-  <!-- Main JS-->
-  <script src="{{ url_for('static',filename='js/global.js')}}"></script>
   <script>
-    document.getElementById('myForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevents the form from submitting traditionally
-        // Accessing input values by their IDs
-        const nitrogenValue = document.getElementById('nitrogen').value;
-        const phosphorousValue = document.getElementById('phosphorous').value;
-        const potassiumValue = document.getElementById('potassium').value;
-        const temperatureValue = document.getElementById('temperature').value;
-        const humidityValue = document.getElementById('humidity').value;
-        const alkalineValue = document.getElementById('alkaline').value;
-        const rainfallValue = document.getElementById('rainfall').value;
+    const countries = [
+    {% for item in data %}
+    "{{ item }}"{% if not loop.last %},{% endif %}
+    {% endfor %}
+    ];
+    const titles = [
+    'Calorie from Fat', 'Calcium', 'Calories', 'Cholesterol', 'Fiber', 'Item', 'Protein',
+    'Restaurant', 'Salad', 'Saturated Fat', 'Sodium', 'Sugar', 'Total Carbohydrate', 'Total Fat',
+    'Trans Fat', 'Vitamin A', 'Vitamin C'
+    ];
+    const backgroundColors = [
+    'rgba(255, 99, 132, 0.8)',
+    'rgba(54, 162, 235, 0.8)',
+    'rgba(255, 206, 86, 0.8)',
+    'rgba(75, 192, 192, 0.8)',
+    'rgba(153, 102, 255, 0.8)',
+    'rgba(255, 159, 64, 0.8)',
+    'rgba(255, 0, 0, 0.8)',        
+    'rgba(0, 255, 0, 0.8)',      
+    'rgba(0, 0, 255, 0.8)',        
+    'rgba(255, 255, 0, 0.8)',     
+    'rgba(255, 0, 255, 0.8)',     
+    'rgba(0, 255, 255, 0.8)',     
+    'rgba(128, 0, 0, 0.8)',        
+    'rgba(0, 128, 0, 0.8)',        
+    'rgba(0, 0, 128, 0.8)',       
+    'rgba(128, 128, 0, 0.8)',      
+    'rgba(128, 0, 128, 0.8)'  
+    ] 
+  </script>
+  <script type="text/javascript">
+    function populateCountries() {
+      const selectElement = $('#suggestions');
+      selectElement.empty();
+      selectElement.append($('<option>', {
+        value: '',
+        text: 'Select a country'
+      }));
+      countries.forEach(country => {
+        selectElement.append($('<option>', {
+          value: country,
+          text: country
+        }));
+      });
+      selectElement.select2({
+        placeholder: 'Search for a food',
+        width: '100%'
+      });
+      selectElement.on('change', function () {
+        const selectedCountry = $(this).val();
         $.ajax({
           url: '/search',
-          type: 'POST',
+          type: 'GET',
           data: {
-            'nitrogenValue': nitrogenValue,
-            'phosphorousValue': phosphorousValue,
-            'potassiumValue': potassiumValue,
-            'temperatureValue': temperatureValue,
-            'humidityValue': humidityValue,
-            'alkalineValue': alkalineValue,
-            'rainfallValue': rainfallValue,
+            'search': selectedCountry
           },
           dataType: 'json',
           success: function(data) {
-           $('#myModal').show();
-           $('#modalHead').text(data.data_pred[0]);
-           changeImage(data.data_pred[0]);
-               // Update details in the modal body
-               var detailsElement = document.querySelector('.modal-body p');
-               detailsElement.innerHTML = `
-               Nitrogen: ${data.nitrogen_value}<br>
-               Phosphorous: ${data.phosphorous_value}<br>
-               Potassium: ${data.potassium_value}<br>
-               Temperature: ${data.temperature_value}<br>
-               Humidity: ${data.humidity_value}<br>
-               Alkaline: ${data.alkaline_value}<br>
-               Rainfall: ${data.rainfall_value}<br>
-               `;
-             }
-           });
-      });
-    $('.close').click(function() {
-      $('#myModal').hide();
+      // Nutritional data
+      var nutritionalData = data.results[0];
+      delete nutritionalData['Unnamed: 0'];
+      // Extract labels and values for the pie chart
+      const labels = Object.keys(nutritionalData);
+      const values = Object.values(nutritionalData);
+      // Clear the existing chart (if it exists)
+      if(window.myPieChart !== undefined) {
+        window.myPieChart.destroy();
+      }
+      const ctx = document.getElementById('pieChart').getContext('2d');
+      window.myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          datasets: [{
+            data: values,
+            backgroundColor: backgroundColors,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+          display: false // Disable the default legend display
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              return data.labels[tooltipItem.index] + ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Restaurant: ' + data.results[0]['restaurant'],
+            color: 'rgba(0, 0, 0, 1)'
+          }
+        }
+      }
     });
-  </script>
-  <script>
-    function changeImage(preds) {
-      var baseUrl = "{{ url_for('static', filename='images/') }}";
-      var imageUrl = baseUrl + preds + '.jpg';
-      var imgElement = document.getElementById('myImage');
-      imgElement.setAttribute('src', imageUrl);
+      const detailDiv = document.getElementById('detalye');
+      detailDiv.innerHTML = '';
+      for (let i = 0; i < 17; i++) {
+        if (![5, 7, 8].includes(i)) {
+          const paragraph = document.createElement('p');
+          const colorBar = `<span style="display:inline-block; width:40px; height:10px; background-color:${backgroundColors[i]}; margin-right:5px;"></span>`;
+          paragraph.innerHTML = `${colorBar} -- ${titles[i]} = ${Object.values(nutritionalData)[i]}`;
+    detailDiv.appendChild(paragraph); // Append to the 'detalye' div
+  }
+}
+}/*end of succsess*/
+});
+      });
     }
+    populateCountries();
+  </script>
+
+    <script>
+  function logout() {
+    var form = document.createElement('form');
+    form.method = 'post';
+    form.action = "{{ url_for('logout') }}";
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+
   </script>
 </body>
-<!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
-<!-- end document-->
