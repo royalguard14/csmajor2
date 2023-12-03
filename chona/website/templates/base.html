@@ -1,0 +1,157 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="author" content="colorlib.com">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,800" rel="stylesheet" />
+  <link href="{{ url_for('static',filename='css/main.css')}}" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <script src="{{ url_for('static',filename='js/extention/choices.js')}}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <div class="s004">
+    <form>
+      <fieldset>
+        <legend>WHAT ARE YOU LOOKING FOR?</legend>
+        <select id="suggestions"></select>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+        <legend> 
+          <div class="faded-white-div">
+            <div class="container">
+             <div class="details">
+              <!-- Details content here -->
+              <h4 id="resto" style="color:black;"></h4>
+              <div id="detalye"></div>
+            </div>
+            <div class="pie-chart">
+              <canvas id="pieChart" width="400" height="400"></canvas>
+            </div>
+          </div>
+        </legend>
+      </fieldset>
+    </form>
+  </div>
+  <script>
+    const countries = [
+    {% for item in data %}
+    "{{ item }}"{% if not loop.last %},{% endif %}
+    {% endfor %}
+    ];
+    const titles = [
+    'Calorie from Fat', 'Calcium', 'Calories', 'Cholesterol', 'Fiber', 'Item', 'Protein',
+    'Restaurant', 'Salad', 'Saturated Fat', 'Sodium', 'Sugar', 'Total Carbohydrate', 'Total Fat',
+    'Trans Fat', 'Vitamin A', 'Vitamin C'
+    ];
+    const backgroundColors = [
+    'rgba(255, 99, 132, 0.8)',
+    'rgba(54, 162, 235, 0.8)',
+    'rgba(255, 206, 86, 0.8)',
+    'rgba(75, 192, 192, 0.8)',
+    'rgba(153, 102, 255, 0.8)',
+    'rgba(255, 159, 64, 0.8)',
+    'rgba(255, 0, 0, 0.8)',        
+    'rgba(0, 255, 0, 0.8)',      
+    'rgba(0, 0, 255, 0.8)',        
+    'rgba(255, 255, 0, 0.8)',     
+    'rgba(255, 0, 255, 0.8)',     
+    'rgba(0, 255, 255, 0.8)',     
+    'rgba(128, 0, 0, 0.8)',        
+    'rgba(0, 128, 0, 0.8)',        
+    'rgba(0, 0, 128, 0.8)',       
+    'rgba(128, 128, 0, 0.8)',      
+    'rgba(128, 0, 128, 0.8)'  
+    ] 
+  </script>
+  <script type="text/javascript">
+    function populateCountries() {
+      const selectElement = $('#suggestions');
+      selectElement.empty();
+      selectElement.append($('<option>', {
+        value: '',
+        text: 'Select a country'
+      }));
+      countries.forEach(country => {
+        selectElement.append($('<option>', {
+          value: country,
+          text: country
+        }));
+      });
+      selectElement.select2({
+        placeholder: 'Search for a food',
+        width: '100%'
+      });
+      selectElement.on('change', function () {
+        const selectedCountry = $(this).val();
+        $.ajax({
+          url: '/search',
+          type: 'GET',
+          data: {
+            'search': selectedCountry
+          },
+          dataType: 'json',
+          success: function(data) {
+      // Nutritional data
+      var nutritionalData = data.results[0];
+      delete nutritionalData['Unnamed: 0'];
+      // Extract labels and values for the pie chart
+      const labels = Object.keys(nutritionalData);
+      const values = Object.values(nutritionalData);
+      // Clear the existing chart (if it exists)
+      if(window.myPieChart !== undefined) {
+        window.myPieChart.destroy();
+      }
+      const ctx = document.getElementById('pieChart').getContext('2d');
+      window.myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          datasets: [{
+            data: values,
+            backgroundColor: backgroundColors,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: {
+          display: false // Disable the default legend display
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              return data.labels[tooltipItem.index] + ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Restaurant: ' + data.results[0]['restaurant'],
+            color: 'rgba(0, 0, 0, 1)'
+          }
+        }
+      }
+    });
+      const detailDiv = document.getElementById('detalye');
+      detailDiv.innerHTML = '';
+      for (let i = 0; i < 17; i++) {
+        if (![5, 7, 8].includes(i)) {
+          const paragraph = document.createElement('p');
+          const colorBar = `<span style="display:inline-block; width:40px; height:10px; background-color:${backgroundColors[i]}; margin-right:5px;"></span>`;
+          paragraph.innerHTML = `${colorBar} -- ${titles[i]} = ${Object.values(nutritionalData)[i]}`;
+    detailDiv.appendChild(paragraph); // Append to the 'detalye' div
+  }
+}
+}/*end of succsess*/
+});
+      });
+    }
+    populateCountries();
+  </script>
+  <script>
+  </script>
+</body>
+</html>
