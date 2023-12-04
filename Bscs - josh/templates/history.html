@@ -1,0 +1,60 @@
+<!-- history.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction History</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prediction History</h1>
+        <a href="/front">
+        <button>Go to Front</button>
+    </a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tiktoker Name</th>
+                <th>Tiktok Name</th>
+                <th>Subscribers</th>
+                <th>Views avg.</th>
+                <th>Likes avg.</th>
+                <th>Comments avg.</th>
+                <th>Shares avg.</th>
+                <th>Search Date</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for prediction in predictions %}
+            {% set json_data = prediction.input_values | toJson %}
+                <tr>
+                    <td>{{ prediction.id }}</td>
+                    <td>{{ json_data["data_pred"] }}</td>
+                    <td>{{ json_data["tiktokename"] }}</td>
+                    <td>{{ json_data["subs_value"] | toMK}}</td>
+                    <td>{{ json_data["views_value"] | toMK }}</td>
+                    <td>{{ json_data["likes_value"] | toMK}}</td>
+                    <td>{{ json_data["comment_value"] | toMK}}</td>
+                    <td>{{ json_data["shares_value"] | toMK}}</td>
+           
+                    <td>{{ prediction.timestamp | ctime }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
