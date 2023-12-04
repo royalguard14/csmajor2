@@ -1,0 +1,63 @@
+<!-- history.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction History</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prediction History</h1>
+        <a href="/front">
+        <button>Go to Front</button>
+    </a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title id</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Release Year</th>
+                <th>Age Certification</th>
+                <th>Runtime</th>
+                <th>Imdb_score</th>
+                <th>Imdb_votes</th>
+                <th>Search Date</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for prediction in predictions %}
+            {% set json_data = prediction.input_values | toJson %}
+            {% set split_data = json_data["data_pred"] | split("|") %}
+                <tr>
+                    <td>{{ prediction.id }}</td>
+                   <td>{{ split_data[0] }}</td>
+                    <td>{{ split_data[1] }}</td>
+                    <td>{{ json_data["moveShow"] }}</td>
+                    <td>{{ json_data["releaseYear"] }}</td>
+                    <td>{{ json_data["ageCertification"] }}</td>
+                    <td>{{ json_data["runtime"] }}</td>
+                    <td>{{ json_data["imdb_score"] }}</td>
+                    <td>{{ json_data["imdb_votes"] }}</td>
+                    
+                    <td>{{ prediction.timestamp | ctime }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

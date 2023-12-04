@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - React Flipping Card with Tutorial</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:400,700'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'><link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+</head>
+<body>
+  <!-- partial:index.partial.html -->
+  <body>
+    <div class="react-card">
+      <div data-reactroot="" class="card-container">
+        <div class="card-body">
+          <div class="card-side side-back">
+            <div class="container-fluid">
+              <h1>Search Movie To Predict</h1>
+              <form class="card-form" id="movieForm">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <fieldset>
+                      <input type="number" min="1953" max="2022" name="release_year" id="release_year" required="" placeholder="Year Release">
+                    </fieldset>
+                  </div>
+                  <div class="col-xs-6">
+                    <fieldset>
+                      <input type="number" name="runtime" id="runtime" min="0" max="235" placeholder="Runtime" required="">
+                    </fieldset>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-6">
+                    <fieldset>
+                      <!-- minuimum 1.5, Max 9.6 -->
+                      <input type="text" name="imdb_score" id="imdb_score" pattern="\d+(\.\d+)?" required placeholder="IMDB Score">
+                    </fieldset>
+                  </div>
+                  <div class="col-xs-6">
+                    <fieldset>
+                      <input type="number" name="imdb_votes" id="imdb_votes" min="5" max="2268288" placeholder="IMDB Votes" required="">
+                    </fieldset>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-6">
+                    <fieldset>
+                      <label for="ageCertification">Age Certification:</label><br>
+                      <select id="ageCertification" class="form-control">
+                        <option value="" selected disabled>Select Here</option>
+                        <option value="0">G</option>
+                        <option value="1">NC-17</option>
+                        <option value="2">PG</option>
+                        <option value="3">PG-13</option>
+                        <option value="4">R</option>
+                        <option value="5">TV-14</option>
+                        <option value="6">TV-G</option>
+                        <option value="7">TV-MA</option>
+                        <option value="8">TV-PG</option>
+                        <option value="9">TV-Y</option>
+                        <option value="10">TV-Y7</option>
+                      </select>
+                    </fieldset>
+                  </div>
+                  <div class="col-xs-6">
+                    <label for="ageCertification">Type</label>
+                    <fieldset>
+                     <select class="form-control" id="moveShowOptions">
+                      <option value="" selected disabled>Select Here</option>
+                      <option value="0">Move</option>
+                      <option value="1">Show</option>
+                    </select>
+                  </fieldset>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-xs-4">
+                  <button class="btn btn-primary" type="submit" value="Send message">Predict</button>
+                </div>
+                <div class="col-xs-4">
+                  <button class="btn btn-primary" type="button" style="background-color: grey" id="tohistory">History</button>
+                </div>
+                <div class="col-xs-4">
+                  <button class="btn btn-primary" type="button" style="background-color: red" id="logoutBtn">Logout</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-side side-front">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-xs-6">
+                <img src="https://source.unsplash.com/w8YICpz1I10/358x458">
+              </div>
+              <div class="col-xs-6 side-front-content">
+                <h2 id="data_id"></h2>
+                <h1 id="data_title"></h1>
+                <p id="data_desc"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<!-- partial -->
+<script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js')}}"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
+<script type="text/javascript">
+  function validateImdbScore(input) {
+  const regex = /^\d+(\.\d+)?$/; // Regular expression for a float number
+  return regex.test(input);
+}
+</script>
+<script>
+  const form = document.getElementById('movieForm');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault(); 
+    const releaseYear = document.getElementById('release_year').value;
+    const runtime = document.getElementById('runtime').value;
+    const imdbScore = document.getElementById('imdb_score').value;
+    const imdbVotes = document.getElementById('imdb_votes').value;
+    const ageCertification = document.getElementById('ageCertification').value;
+    const moveShow = document.getElementById('moveShowOptions').value;
+    if (releaseYear === '' || runtime === '' || imdbScore === '' || imdbVotes === '' || ageCertification === '' || moveShow === '') {
+      alert('Please fill in all fields');
+      return;
+    }
+    if (!validateImdbScore(imdbScore)) {
+      alert('Please enter a valid IMDB Score (float number)');
+      return;
+    }
+    $.ajax({
+      url: '/search',
+      type: 'POST',
+      data: {
+        'releaseYear': releaseYear,
+        'runtime': runtime,
+        'imdbScore': imdbScore,
+        'imdbVotes': imdbVotes,
+        'ageCertification': ageCertification,
+        'moveShow': moveShow,
+      },
+      dataType: 'json',
+      success: function(data) {
+        const splitResult = data.data_pred.split('|');
+        var ids = document.getElementById("data_id");
+        var title = document.getElementById("data_title");
+        var desc = document.getElementById("data_desc");
+        ids.textContent = splitResult[0];
+        title.textContent = splitResult[1];
+        desc.textContent = splitResult[2];
+      }
+    });
+  });
+</script>
+<script type="text/javascript">
+
+  document.getElementById("tohistory").addEventListener("click", function() {
+    window.location.href = "{{ url_for('history') }}";
+  });
+  document.getElementById("logoutBtn").addEventListener("click", function() {
+    var form = document.createElement('form');
+    form.method = 'POST';
+  form.action = "{{ url_for('logout') }}";  // Replace 'logout' with your actual Flask endpoint
+  document.body.appendChild(form);
+  form.submit();
+});
+
+</script>
+</body>
+</html>

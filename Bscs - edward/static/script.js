@@ -5,7 +5,7 @@ class CardInput extends React.Component {
   render() {
     return /*#__PURE__*/(
       React.createElement("fieldset", null, /*#__PURE__*/
-      React.createElement("input", { name: this.props.name, id: this.props.id, type: this.props.type || 'text', placeholder: this.props.placeholder, required: true })));
+      React.createElement("input", { name: this.props.name, id: this.props.id, type: this.props.type, min:this.props.min, value:this.props.value || 'text', placeholder: this.props.placeholder, required: true })));
 
 
   }}
@@ -87,12 +87,12 @@ class CardBack extends React.Component {
     return /*#__PURE__*/(
       React.createElement("div", { className: "card-side side-back" }, /*#__PURE__*/
       React.createElement("div", { className: "container-fluid" }, /*#__PURE__*/
-      React.createElement("h1", null, "Let's get in touch!"), /*#__PURE__*/
+      React.createElement("h1", null, "Search Movie To Predict"), /*#__PURE__*/
 
       React.createElement("form", { formAction: "", className: "card-form" }, /*#__PURE__*/
       React.createElement("div", { className: "row" }, /*#__PURE__*/
       React.createElement("div", { className: "col-xs-6" }, /*#__PURE__*/
-      React.createElement(CardInput, { name: "contactFirstName", id: "contactFirstName", type: "text", placeholder: "Your first name" })), /*#__PURE__*/
+      React.createElement(CardInput, { name: "release_year", id: "release_year", type: "number", min:1980, value:1980 })), /*#__PURE__*/
 
 
       React.createElement("div", { className: "col-xs-6" }, /*#__PURE__*/
@@ -115,7 +115,7 @@ class CardBack extends React.Component {
       React.createElement(CardBtn, { className: "btn btn-primary", type: "submit", value: "Send message" })), /*#__PURE__*/
 
 
-      React.createElement(CardProfileLinks, null))));
+      )));
 
 
 
@@ -129,11 +129,7 @@ class Card extends React.Component {
       React.createElement("div", { className: "card-container" }, /*#__PURE__*/
       React.createElement("div", { className: "card-body" }, /*#__PURE__*/
       React.createElement(CardBack, null), /*#__PURE__*/
-
       React.createElement(CardFront, null))));
-
-
-
   }}
 
 
