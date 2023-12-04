@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>TITOK Infuencer 2022</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Liu+Jian+Mao+Cao&display=swap"><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css'><link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+  <style type="text/css">
+    .transparent-white {
+      background-color: rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;  /*Optional: Horizontal centering */
+      width: 100%;
+      height: 40px; /* Adjust height as needed */
+      font-weight: 900;
+    }
+  </style>
+</head>
+<body>
+  <!-- partial:index.partial.html -->
+  <div class="container">
+    <!-- Tarjeta -->
+    <section id="card" class="card">
+      <div class="front-card">
+        <div id="logo-card" class="logo-card"></div>
+        <div class="info-card-front">
+          <div id="group-number-card" class="group-number-card">
+            <p class="label-card">
+              Tiktoer Name
+            </p>
+            <p class="number-card" id="tiktoker-name">
+              
+            </p>
+          </div>
+          <div class="flexbox">
+            <div id="group-name-card" class="group-name-card">
+              <p class="label-card">
+                Tiktok Name
+              </p>
+              <p class="name-card" id="tiktok-name">
+              </p>
+            </div>
+            <div id="group-expiration-card" class="group-expiration-card">
+              <p class="label-card">
+                Subscriber
+              </p>
+              <p class="expiration-card">
+                <span class="mounth-expiration-card" id="tiktoker-sub">
+                  
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>      
+      </div>
+      <div class="back-card">
+        <div class="transparent-white">
+          <span class="label-card" style="color: black">Views avg. : </span> <em class="label-card"  style="color: black" id="tiktoker-view">0</em>
+        </div>
+        <div class="transparent-white">
+          <span class="label-card" style="color: black">Likes avg. : </span> <em class="label-card"  style="color: black" id="tiktoker-like">0</em>
+        </div>
+        <div class="transparent-white">
+          <span class="label-card" style="color: black">Comments avg. : </span> <em class="label-card"  style="color: black" id="tiktoker-com">0</em>
+        </div>
+        <div class="transparent-white">
+          <span class="label-card" style="color: black">Shares avg. : </span> <em class="label-card"  style="color: black" id="tiktoker-share">0</em>
+        </div>
+        <a class="link-bank-card" href="javascript:void(0);" style="color: yellow">
+          www.youporn.com
+        </a>
+      </div>
+    </section>
+    <!-- Contenedor botón abrir formulario -->
+    <div class="ctn-btn">
+      <button type="button" id="btn-open-form-card" class="btn-open-form-card">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <!-- Formulario Tarjeta -->
+    <form action="javascript:void(0);" id="form-card" class="form-card active" method="POST">
+      <div>
+        <label for="number-card-form">
+          Subscribers     
+        </label>
+        <input type="number" id="number-card-form" min="0" value="0" name="subs_value">
+      </div>
+      <div class="flexbox">
+        <div class="group-expiration-card-form">
+          <label for="mounth-expiration-card-form">
+            Views avg.
+          </label>
+          <div class="flexbox">
+            <div class="group-select">
+              <input type="number" name="views_value" id="mounth-expiration-card-form" min="0" value="0">
+            </div>
+          </div>
+        </div>
+        <div class="group-expiration-card-form">
+          <label for="mounth-expiration-card-form">
+            Likes avg.
+          </label>
+          <div class="flexbox">
+            <div class="group-select">
+              <input type="number" name="likes_value" id="mounth-expiration-card-form" min="0" value="0">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flexbox">
+        <div class="group-expiration-card-form">
+          <label for="mounth-expiration-card-form">
+            Comments avg.
+          </label>
+          <div class="flexbox">
+            <div class="group-select">
+              <input type="number" name="com_value" id="mounth-expiration-card-form" min="0" value="0">
+            </div>
+          </div>
+        </div>
+        <div class="group-expiration-card-form">
+          <label for="mounth-expiration-card-form">
+            Shares avg.
+          </label>
+          <div class="flexbox">
+            <div class="group-select">
+              <input type="number" name="share_value" id="mounth-expiration-card-form" min="0" value="0">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn-send-form-card">
+        Predict
+      </button>
+      <button type="button" class="btn-send-form-card" style="margin-top: 10px; background-color: grey " id="tohistory">
+        History
+      </button>
+      <button type="button" class="btn-send-form-card" style="margin-top: 10px; background-color: red" id="logoutBtn">
+        Logout
+      </button>
+    </div>
+  </form>
+</div>
+<!-- partial -->
+<script  src="{{ url_for('static',filename='script.js')}}"></script>
+<script src="{{ url_for('static',filename='vendor/jquery/jquery.min.js')}}"></script>
+<script type="text/javascript">
+  function convertToMK(value) {
+    if (value >= 1000000) {
+      return Math.floor(value / 1000000) + 'M';
+    } else if (value >= 1000) {
+      if (value % 1000 === 0) {
+        return Math.floor(value / 1000) + 'K';
+      } else {
+        return (value / 1000).toFixed(1) + 'K';
+      }
+    } else {
+      return value.toString(); 
+    }
+  }
+  document.getElementById('form-card').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const subsValueInput = document.querySelector('input[name="subs_value"]');
+    const viewsValueInput = document.querySelector('input[name="views_value"]');
+    const likesValueInput = document.querySelector('input[name="likes_value"]');
+    const comValueInput = document.querySelector('input[name="com_value"]');
+    const shareValueInput = document.querySelector('input[name="share_value"]');
+    const subsValue = subsValueInput.value;
+    const viewsValue = viewsValueInput.value;
+    const likesValue = likesValueInput.value;
+    const comValue = comValueInput.value;
+    const shareValue = shareValueInput.value;
+    $.ajax({
+      url: '/search',
+      type: 'POST',
+      data: {
+        'subsValue': subsValue,
+        'viewsValue': viewsValue,
+        'likesValue': likesValue,
+        'comValue': comValue,
+        'shareValue': shareValue,
+      },
+      dataType: 'json',
+      success: function(data) {
+        console.log(data)
+        var tikname = document.getElementById("tiktoker-name");
+        var tiksub = document.getElementById("tiktoker-sub");
+        var tiklike = document.getElementById("tiktoker-like");
+        var tikshare = document.getElementById("tiktoker-share");
+        var tikviews = document.getElementById("tiktoker-view");
+        var tikcomment = document.getElementById("tiktoker-com");
+        var tikokname = document.getElementById("tiktok-name");
+        tikname.textContent = data.data_pred;
+        tikokname.textContent = data.tiktokename;
+        tiksub.textContent = convertToMK(data.subs_value);
+        tiklike.textContent = convertToMK(data.likes_value);
+        tikshare.textContent = convertToMK(data.shares_value);
+        tikviews.textContent = convertToMK(data.views_value);
+        tikcomment.textContent = convertToMK(data.comment_value);
+      }
+    });
+  });
+</script>
+<script type="text/javascript">
+  document.getElementById("tohistory").addEventListener("click", function() {
+    window.location.href = "{{ url_for('history') }}";
+  });
+  document.getElementById("logoutBtn").addEventListener("click", function() {
+    var form = document.createElement('form');
+    form.method = 'POST';
+  form.action = "{{ url_for('logout') }}";  // Replace 'logout' with your actual Flask endpoint
+  document.body.appendChild(form);
+  form.submit();
+});
+</script>
+</body>
+</html>
