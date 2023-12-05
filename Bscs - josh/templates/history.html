@@ -27,30 +27,28 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Tiktoker Name</th>
-                <th>Tiktok Name</th>
-                <th>Subscribers</th>
-                <th>Views avg.</th>
-                <th>Likes avg.</th>
-                <th>Comments avg.</th>
-                <th>Shares avg.</th>
-                <th>Search Date</th>
+                <th>Traffic Situation</th>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Car</th>
+                <th>Bike</th>
+                <th>Bus</th>
+                <th>Truck</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
-
             {% for prediction in predictions %}
             {% set json_data = prediction.input_values | toJson %}
                 <tr>
                     <td>{{ prediction.id }}</td>
                     <td>{{ json_data["data_pred"] }}</td>
-                    <td>{{ json_data["tiktokename"] }}</td>
-                    <td>{{ json_data["subs_value"] | toMK}}</td>
-                    <td>{{ json_data["views_value"] | toMK }}</td>
-                    <td>{{ json_data["likes_value"] | toMK}}</td>
-                    <td>{{ json_data["comment_value"] | toMK}}</td>
-                    <td>{{ json_data["shares_value"] | toMK}}</td>
-           
+                    <td>{{ json_data["day"] }}</td>
+                    <td>{{ json_data["time"] }}</td>
+                    <td>{{ json_data["car"] }}</td>
+                    <td>{{ json_data["bike"] }}</td>
+                    <td>{{ json_data["bus"] }}</td>
+                    <td>{{ json_data["truck"] }}</td>
                     <td>{{ prediction.timestamp | ctime }}</td>
                 </tr>
             {% endfor %}

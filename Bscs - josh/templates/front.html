@@ -115,7 +115,7 @@
           <div class="modal-body p-5 img d-flex align-items-center color-2">
             <div class="text w-100 py-0 py-md-5">
               <h3 class="mb-4">Predicted Level of Traffic:</h3>
-                  <h3 class="mb-4" id="predicted_data">EDSA LEVEL</h3>
+                  <h3 class="mb-4" id="predicted_data"></h3>
               </div>
             </div>
           </div>
@@ -135,7 +135,9 @@
   const form = document.getElementById('movieForm');
   form.addEventListener('submit', function(event) {
     event.preventDefault(); 
-    $('#exampleModalCenter').show();
+
+
+    $('#exampleModalCenter').modal("show");
 
    
     const day = document.getElementById('days').value;
@@ -150,33 +152,20 @@
       return;
     }
 
-
-
-// Split the time into hours, minutes, and AM/PM
 const [time, period] = timeValue.split(':');
 const hours = parseInt(time, 10);
 const minutes = parseInt(period.slice(0, 2), 10);
 const isPM = period.slice(-2).toUpperCase() === 'PM';
 
-// Convert hours and minutes to decimal time
 let decimalTime = hours + minutes / 60;
 
-// Adjust for PM if necessary
 if (isPM && hours !== 12) {
   decimalTime += 12;
 } else if (!isPM && hours === 12) {
   decimalTime -= 12;
 }
 
-
-
-
-
-
-
-
-    alert(decimalTime)
-
+alert(decimalTime)
     $.ajax({
       url: '/search',
       type: 'POST',
@@ -191,9 +180,9 @@ if (isPM && hours !== 12) {
       dataType: 'json',
       success: function(data) {
 
-/*        console.log(data)
+        console.log(data)
         var predicted = document.getElementById("predicted_data");
-        predicted.textContent = data.data_pred;*/
+        predicted.textContent = data.data_pred;
 
       }
     });
